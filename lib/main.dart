@@ -100,11 +100,33 @@ class _MyHomePageState extends State<MyHomePage>
             right: 50,
             top: 60,
             child: Text('z: ${(z * 200).toStringAsFixed(5)}')),
+        Positioned(
+          right: 50,
+          top: 100,
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                x = 0;
+                y = 0;
+                z = 0;
+              });
+            },
+            child: const Text('reset'),
+          ),
+        ),
         AnimatedPositioned(
             width: 50,
             height: 50,
-            left: (MediaQuery.of(context).size.width - 50 + (y * 200)) / 2,
-            top: (MediaQuery.of(context).size.height - 50 + (x * 200)) / 2,
+            left: (max(
+                0,
+                min(MediaQuery.of(context).size.width,
+                        MediaQuery.of(context).size.width - 50 + (y * 200)) /
+                    2)),
+            top: (max(
+                0,
+                min(MediaQuery.of(context).size.height,
+                        MediaQuery.of(context).size.height - 50 + (x * 200)) /
+                    2)),
             duration: const Duration(milliseconds: 16),
             child: AnimatedContainer(
               color: Theme.of(context).primaryColor,
@@ -130,14 +152,14 @@ class _MyHomePageState extends State<MyHomePage>
                 Transform(
                   transform: Matrix4.translationValues(
                       -left.value, -sin(rot.value) * 20, 0),
-                  child: const Icon(Icons.stop),
+                  child: const Icon(Icons.play_arrow),
                 ),
                 const Icon(Icons.arrow_right_alt),
                 Transform(
                   transform: Matrix4.translationValues(
                       left.value, sin(rot.value) * 20, 0),
-                  child: Icon(Icons.play_arrow),
-                )
+                  child: const Icon(Icons.stop),
+                ),
               ],
             );
           },
